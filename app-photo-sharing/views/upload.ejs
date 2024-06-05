@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>写真アップロード</title>
   <style>
+      body {
+        font-size: 30px;
+      }
       .message {
         background-color: #fcc;
       }
@@ -23,7 +26,7 @@
           cursor: pointer;
           margin-right: 10px;
           transition: background-color 0.3s, color 0.3s;
-          width: 60px;
+          width: 30%;
           text-align: center;
       }
 
@@ -33,22 +36,40 @@
       }
 
       div.div-line {
-        padding: 10px 0;
+        border: 2px solid #aaa;
+        margin: 10px;
       }
       div.div-header {
-        width: 100px;
+        background-color: #ccc;
+        padding: 5px;
+      }
+      div.div-body {
+        padding: 10px;
+      }
+
+      #inputFiles {
+        font-size: 20px;
+      }
+
+      button {
+        font-size: 30px;
+        height:100px;
+        background-color:rgb(95, 156, 254);
+        border-radius:10px;
+        border:2px solid rgb(194, 194, 244);
+        padding: 20px;
       }
   </style>
 </head>
 <body>
-  <h1>写真登録</h1>
+  <h2>写真登録</h2>
   <p class="message"><%= dynamicValue %></p>
   <form action="/upload" method="post" enctype="multipart/form-data">
     <div class="div-line">
       <div class="div-header">
-        人
+        登録者番号
       </div>
-      <div>
+      <div class="div-body">
         <input type="radio" id="optUser1" name="optUser" value="1" class="radio-button" <%= (!user || (user === "1"))? 'checked': '' %>>
         <label for="optUser1" class="radio-label">1</label>
 
@@ -64,16 +85,15 @@
     </div>
     <div class="div-line">
       <div class="div-header">
-        写真を選択
+        写真を選択<br />(写真ライブラリから)
       </div>
-      <div>
-        <input type="file" name="files" multiple required>
+      <div class="div-body">
+        <input id="inputFiles" type="file" name="files" style="height:80px" multiple required>
       </div>
     </div>
     <hr style="margin: 40px 0" />
     <button
       type="submit"
-      style="height:100px; width:150px; background-color:rgb(95, 156, 254); border-radius:10px; border:2px solid rgb(194, 194, 244);"
     >登録実行</button>
   </form>
 </body>
