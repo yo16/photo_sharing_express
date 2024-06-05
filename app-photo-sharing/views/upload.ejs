@@ -47,8 +47,17 @@
         padding: 10px;
       }
 
-      #inputFiles {
-        font-size: 20px;
+      .custom-file-label {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        color: #007bff;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: background-color 0.3s, color 0.3s;
+        text-align: center;
       }
 
       button {
@@ -62,7 +71,7 @@
   </style>
 </head>
 <body>
-  <h2>写真登録</h2>
+  <h2>写真の登録</h2>
   <p class="message"><%= dynamicValue %></p>
   <form action="/upload" method="post" enctype="multipart/form-data">
     <div class="div-line">
@@ -88,7 +97,8 @@
         写真を選択<br />(写真ライブラリから)
       </div>
       <div class="div-body">
-        <input id="inputFiles" type="file" name="files" style="height:80px" multiple required>
+        <label for="file-upload" class="custom-file-label">ファイルを選択</label>
+        <input id="inputFiles" type="file" name="files" style="display:none" multiple required>
       </div>
     </div>
     <hr style="margin: 40px 0" />
@@ -96,5 +106,10 @@
       type="submit"
     >登録実行</button>
   </form>
+  <script>
+    document.querySelector('.custom-file-label').addEventListener('click', function() {
+      document.getElementById('inputFiles').click();
+    });
+  </script>
 </body>
 </html>
