@@ -4,15 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>写真アップロード</title>
+  <style>
+      .message {
+        background-color: #fcc;
+      }
+
+      .radio-button {
+          display: none;
+      }
+
+      .radio-label {
+          display: inline-block;
+          padding: 10px 20px;
+          border: 2px solid #007bff;
+          border-radius: 5px;
+          background-color: #f8f9fa;
+          color: #007bff;
+          cursor: pointer;
+          margin-right: 10px;
+          transition: background-color 0.3s, color 0.3s;
+          width: 60px;
+          text-align: center;
+      }
+
+      .radio-button:checked + .radio-label {
+          background-color: #007bff;
+          color: #ffffff;
+      }
+
+      div.div-line {
+        padding: 10px 0;
+      }
+      div.div-header {
+        width: 100px;
+      }
+  </style>
 </head>
 <body>
   <h1>写真登録</h1>
-  <p><%= dynamicValue %></p>
+  <p class="message"><%= dynamicValue %></p>
   <form action="/upload" method="post" enctype="multipart/form-data">
-    写真を選択：
-    <input type="file" name="files" multiple required>
-    <hr />
-    <button type="submit">登録実行</button>
+    <div class="div-line">
+      <div class="div-header">
+        人
+      </div>
+      <div>
+        <input type="radio" id="optUser1" name="optUser" value="1" class="radio-button" <%= (!user || (user === "1"))? 'checked': '' %>>
+        <label for="optUser1" class="radio-label">1</label>
+
+        <input type="radio" id="optUser2" name="optUser" value="2" class="radio-button" <%= (user && (user === "2"))? 'checked': '' %>>
+        <label for="optUser2" class="radio-label">2</label>
+
+        <input type="radio" id="optUser3" name="optUser" value="3" class="radio-button" <%= (user && (user === "3"))? 'checked': '' %>>
+        <label for="optUser3" class="radio-label">3</label>
+
+        <input type="radio" id="optUser4" name="optUser" value="4" class="radio-button" <%= (user && (user === "4"))? 'checked': '' %>>
+        <label for="optUser4" class="radio-label">4</label>
+      </div>
+    </div>
+    <div class="div-line">
+      <div class="div-header">
+        写真を選択
+      </div>
+      <div>
+        <input type="file" name="files" multiple required>
+      </div>
+    </div>
+    <hr style="margin: 40px 0" />
+    <button
+      type="submit"
+      style="height:100px; width:150px; background-color:rgb(95, 156, 254); border-radius:10px; border:2px solid rgb(194, 194, 244);"
+    >登録実行</button>
   </form>
 </body>
 </html>

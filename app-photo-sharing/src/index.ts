@@ -21,15 +21,20 @@ const upload = multer({ storage });
 
 // トップ
 app.get('/', (req: Request, res: Response) => {
-    const message = req.query.message as string;
+    const message = req.query.m as string;
+    const user = req.query.u as string;
 
     //const dynamicValue = "This is a dynamic value!";
-    res.render('upload', { dynamicValue: message });
+    res.render('upload', { dynamicValue: message, user });
 });
 
 
 // ファイルアップロード
 app.post('/upload', upload.any(), (req: Request, res: Response) => {
+    const uploader: string = (req.body.optUser)
+        ? `user${req.body.optUser}`
+        : "unknown";
+
     if (req.files) {
         const files = req.files as Express.Multer.File[];
         files.forEach(file => {
@@ -39,11 +44,11 @@ app.post('/upload', upload.any(), (req: Request, res: Response) => {
             //  uploadFileToDrive(auth, file.path, file.filename);
             //});
             authorize((auth) => {
-                uploadFileToDrive(auth, file);
+                uploadFileToDrive(auth, file, uploader);
             });
         });
         const message = `${files.length}個のファイルを登録しました`;
-        res.redirect(`/?message=${message}`);
+        res.redirect(`/?m=${message}&u=${req.body.optUser}`);
     } else {
         res.send('File upload failed.');
     }
@@ -56,10 +61,10 @@ app.listen(port, () => {
 
 
 // Google Driveにファイルをアップロードする関数
-function uploadFileToDrive(auth: any, file: Express.Multer.File) {
+function uploadFileToDrive(auth: any, file: Express.Multer.File, uploader: string) {
     const drive = google.drive({ version: 'v3', auth });
     const fileMetadata = {
-        name: file.originalname,
+        name: `${uploader}_${file.originalname}`,
         parents: [FOLDER_ID]
     };
     const bufferStream = new PassThrough();
