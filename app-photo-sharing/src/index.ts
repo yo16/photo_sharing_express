@@ -27,10 +27,12 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // ファイルアップロード
-app.post('/upload', upload.single('file'), (req: Request, res: Response) => {
-    if (req.file) {
-        //res.send(`File uploaded: ${req.file.filename}`);
-        console.log(`File uploaded: ${req.file.filename}`);
+app.post('/upload', upload.any(), (req: Request, res: Response) => {
+    if (req.files) {
+        const files = req.files as Express.Multer.File[];
+        files.forEach(file => {
+            console.log(`File uploaded: ${file.filename}`);
+        });
         res.redirect('/');
     } else {
         res.send('File upload failed.');
