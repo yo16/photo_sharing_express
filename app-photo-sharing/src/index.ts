@@ -10,7 +10,11 @@ const port = 3000;
 const folderId = "1HLOy0NptbpJ77MqLdRTnfMLBfvTPNaFK";
 
 // 静的ファイルの設定
-app.use(express.static(path.join(__dirname, "../public")));
+//app.use(express.static(path.join(__dirname, "../public")));
+
+// テンプレートエンジンの設定
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'));
 
 // Multerの設定
 const storage = multer.diskStorage({
@@ -26,8 +30,13 @@ const upload = multer({ storage: storage });
 
 // トップ
 app.get('/', (req: Request, res: Response) => {
-  //res.send('Hello, TypeScript with Express!');
-  res.sendFile(path.join(__dirname, "../public/sample.html"));
+    //res.send('Hello, TypeScript with Express!');
+    //res.sendFile(path.join(__dirname, "../public/sample.html"));
+
+    const message = req.query.message as string;
+
+    //const dynamicValue = "This is a dynamic value!";
+    res.render('upload', { dynamicValue: message });
 });
 
 // ファイルアップロード
@@ -41,16 +50,16 @@ app.post('/upload', upload.any(), (req: Request, res: Response) => {
             uploadFileToDrive(auth, file.path, file.filename);
           });
         });
-        res.redirect('/');
+        const message = `${files.length}個のファイルを登録しました`;
+        res.redirect(`/?message=${message}`);
     } else {
         res.send('File upload failed.');
     }
 });
 
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running at http://localhost:${port}`);
 });
-
 
 
 // Google Driveにファイルをアップロードする関数
@@ -76,4 +85,4 @@ function uploadFileToDrive(auth: any, filePath: string, fileName: string) {
             console.log('File Id:', file.data.id);
         }
     });
-  }
+}

@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>写真の登録</title>
+  <title>写真アップロード</title>
 </head>
 <body>
-  <h1>写真の登録</h1>
+  <h1>写真登録</h1>
+  <p><%= dynamicValue %></p>
   <form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" multiple required>
-    <button type="submit">Upload</button>
+    写真を選択：
+    <input type="file" name="files" multiple required>
+    <hr />
+    <button type="submit">登録実行</button>
   </form>
 </body>
 </html>
