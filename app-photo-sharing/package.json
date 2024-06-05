@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install": "npm install typescript ts-node @types/node --save-dev & npm install",
-    "build": "tsc",
+    "build": "npm run install & tsc",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts"
   },
