@@ -10,8 +10,6 @@ const app = express();
 const port = 3000;
 const FOLDER_ID = "1HLOy0NptbpJ77MqLdRTnfMLBfvTPNaFK";
 
-// 静的ファイルの設定
-//app.use(express.static(path.join(__dirname, "../public")));
 
 // テンプレートエンジンの設定
 app.set('view engine', 'ejs');
@@ -23,14 +21,12 @@ const upload = multer({ storage });
 
 // トップ
 app.get('/', (req: Request, res: Response) => {
-    //res.send('Hello, TypeScript with Express!');
-    //res.sendFile(path.join(__dirname, "../public/sample.html"));
-
     const message = req.query.message as string;
 
     //const dynamicValue = "This is a dynamic value!";
     res.render('upload', { dynamicValue: message });
 });
+
 
 // ファイルアップロード
 app.post('/upload', upload.any(), (req: Request, res: Response) => {
@@ -52,6 +48,7 @@ app.post('/upload', upload.any(), (req: Request, res: Response) => {
         res.send('File upload failed.');
     }
 });
+
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
