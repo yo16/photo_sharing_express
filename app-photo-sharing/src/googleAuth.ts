@@ -1,10 +1,22 @@
 import { google } from 'googleapis';
 import * as fs from 'fs';
+import dotenv from 'dotenv';
 
-const KEY_FILE = './confidentials/gcp_cond.json';
+dotenv.config();
+
+const keyFile = process.env.NODE_ENV === 'development'
+    ? process.env.KEY_FILE_DEV
+    : process.env.KEY_FILE_PROD;
+if (!keyFile) {
+    throw new Error('KEY_FILE environment variable is not set');
+}
 
 export function authorize(callback: (auth: any) => void) {
-    const credentials = JSON.parse(fs.readFileSync(KEY_FILE, 'utf8'));
+    if (!keyFile) {
+        throw new Error('KEY_FILE environment variable is not set');
+    }
+
+    const credentials = JSON.parse(fs.readFileSync(keyFile as string, 'utf8'));
     const { client_email, private_key } = credentials;
     const scopes = ['https://www.googleapis.com/auth/drive.file'];
 
