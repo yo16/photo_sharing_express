@@ -8,12 +8,12 @@ const keyFile = process.env.NODE_ENV === 'development'
     ? process.env.KEY_FILE_DEV
     : process.env.KEY_FILE_PROD;
 if (!keyFile) {
-    throw new Error('KEY_FILE environment variable is not set');
+    throw new Error('KEY_FILE environment variable is not set(1)');
 }
 
 export function authorize(callback: (auth: any) => void) {
     if (!keyFile) {
-        throw new Error('KEY_FILE environment variable is not set');
+        throw new Error('KEY_FILE environment variable is not set(2)');
     }
 
     const credentials = JSON.parse(fs.readFileSync(keyFile as string, 'utf8'));
