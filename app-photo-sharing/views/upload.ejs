@@ -80,17 +80,26 @@
         登録者番号
       </div>
       <div class="div-body">
-        <input type="radio" id="optUser1" name="optUser" value="1" class="radio-button" <%= (!user || (user === "1"))? 'checked': '' %>>
-        <label for="optUser1" class="radio-label">1</label>
-
-        <input type="radio" id="optUser2" name="optUser" value="2" class="radio-button" <%= (user && (user === "2"))? 'checked': '' %>>
-        <label for="optUser2" class="radio-label">2</label>
-
-        <input type="radio" id="optUser3" name="optUser" value="3" class="radio-button" <%= (user && (user === "3"))? 'checked': '' %>>
-        <label for="optUser3" class="radio-label">3</label>
-
-        <input type="radio" id="optUser4" name="optUser" value="4" class="radio-button" <%= (user && (user === "4"))? 'checked': '' %>>
-        <label for="optUser4" class="radio-label">4</label>
+        <% for (let i=0; i<userCount; i++) { %>
+        <input
+          type="radio"
+          name="optUser"
+          class="radio-button"
+          id=<%= `optUser${i}` %>
+          value=<%= `${i}` %>
+          <% if (i===0) { %>
+            <%= (!currentUser || (currentUser === `${i}`))? 'checked': '' %>
+          <% } else { %>
+            <%= (currentUser && (currentUser === `${i}`))? 'checked': '' %>
+          <% } %>
+        />
+        <label
+          class="radio-label"
+          for=<%= `optUser${i}` %>
+        >
+          <%= (userNames && (userNames.length>i) && (userNames[i].length > 0))? userNames[i]: `${i+1}` %>
+        </label>
+        <% } %>
       </div>
     </div>
     <div class="div-line">
@@ -110,7 +119,7 @@
   <script>
     document.querySelector('.custom-file-label').addEventListener('click', function() {
       document.getElementById('inputFiles').click();
-    });
+    }); 
   </script>
 </body>
 </html>
